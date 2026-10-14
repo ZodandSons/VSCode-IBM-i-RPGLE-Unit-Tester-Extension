@@ -1,0 +1,67 @@
+**free
+// ---------------------------------------------------------------------------
+// TESTASSERT prototypes - include in every test suite:
+//     /include 'testassert.rpgleinc'
+// (the IBM i Unit extension adds the framework folder to INCDIR for you)
+// ---------------------------------------------------------------------------
+/if not defined(IUNIT_TESTASSERT_H)
+/define IUNIT_TESTASSERT_H
+
+// ---- Assertions --------------------------------------------------------
+// Each assertion counts toward the test's assertion total. The first failing
+// assertion records its message and ends the test (status FAILED).
+
+dcl-pr assertTrue;
+  condition ind const;
+  message varchar(1024) const options(*nopass);
+end-pr;
+
+dcl-pr assertFalse;
+  condition ind const;
+  message varchar(1024) const options(*nopass);
+end-pr;
+
+dcl-pr assertEqualsInt;
+  expected int(20) const;
+  actual int(20) const;
+  message varchar(1024) const options(*nopass);
+end-pr;
+
+dcl-pr assertEqualsDec;
+  expected packed(31: 9) const;
+  actual packed(31: 9) const;
+  message varchar(1024) const options(*nopass);
+end-pr;
+
+// Trailing blanks are ignored, so char and varchar compare naturally.
+dcl-pr assertEqualsChar;
+  expected varchar(32767) const;
+  actual varchar(32767) const;
+  message varchar(1024) const options(*nopass);
+end-pr;
+
+dcl-pr assertNotEqualsChar;
+  unexpected varchar(32767) const;
+  actual varchar(32767) const;
+  message varchar(1024) const options(*nopass);
+end-pr;
+
+dcl-pr fail;
+  message varchar(1024) const;
+end-pr;
+
+// ---- Runner hooks (used by RUNTEST; not needed in tests) ---------------
+dcl-pr iu_beginTest;
+  testName varchar(128) const;
+end-pr;
+
+dcl-pr iu_hasFailed ind;
+end-pr;
+
+dcl-pr iu_getFailMessage varchar(1024);
+end-pr;
+
+dcl-pr iu_getAssertCount int(10);
+end-pr;
+
+/endif

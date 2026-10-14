@@ -1,0 +1,27 @@
+**free
+// Prototypes for service program STRUTIL
+/if not defined(STRUTIL_H)
+/define STRUTIL_H
+
+dcl-pr str_reverse varchar(1024);
+  value varchar(1024) const;
+end-pr;
+
+// Pads on the left to the requested length; longer values are returned as-is
+dcl-pr str_padLeft varchar(1024);
+  value varchar(1024) const;
+  length int(10) const;
+  padChar char(1) const;
+end-pr;
+
+// "hELLO wORLD" -> "Hello World"
+dcl-pr str_capitalize varchar(1024);
+  value varchar(1024) const;
+end-pr;
+
+dcl-pr str_countOccurrences int(10);
+  value varchar(1024) const;
+  search varchar(256) const;
+end-pr;
+
+/endif

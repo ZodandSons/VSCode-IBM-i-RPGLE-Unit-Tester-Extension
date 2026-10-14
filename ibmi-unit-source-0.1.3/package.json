@@ -1,0 +1,138 @@
+{
+  "name": "ibmi-unit",
+  "displayName": "IBM i Unit - RPGLE Test Runner",
+  "description": "Run unit tests for RPGLE programs and service programs on IBM i through the Code for IBM i connection, with Test Explorer integration and HTML/JUnit reports.",
+  "version": "0.1.3",
+  "publisher": "jcwconsultingservices",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Testing",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "ibmi",
+    "rpgle",
+    "as400",
+    "unit test",
+    "code for ibm i"
+  ],
+  "extensionDependencies": [
+    "halcyontechltd.code-for-ibmi"
+  ],
+  "activationEvents": [
+    "onLanguage:rpgle",
+    "workspaceContains:**/*.test.rpgle",
+    "workspaceContains:**/*.test.sqlrpgle",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ibmiUnit.runFile",
+        "title": "Run RPGLE Unit Tests in Current File",
+        "category": "IBM i Unit",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "ibmiUnit.runAll",
+        "title": "Run All RPGLE Unit Tests",
+        "category": "IBM i Unit"
+      },
+      {
+        "command": "ibmiUnit.showReport",
+        "title": "Show Last Test Report",
+        "category": "IBM i Unit"
+      },
+      {
+        "command": "ibmiUnit.installFramework",
+        "title": "Install Test Framework on IBM i",
+        "category": "IBM i Unit"
+      },
+      {
+        "command": "ibmiUnit.buildSamples",
+        "title": "Build Sample Programs on IBM i",
+        "category": "IBM i Unit"
+      },
+      {
+        "command": "ibmiUnit.newTestSuite",
+        "title": "New RPGLE Test Suite",
+        "category": "IBM i Unit"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "ibmiUnit.runFile",
+          "when": "resourceLangId == rpgle"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "ibmiUnit.runFile",
+          "when": "resourceLangId == rpgle",
+          "group": "ibmiUnit"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "IBM i Unit",
+      "properties": {
+        "ibmiUnit.library": {
+          "type": "string",
+          "default": "IUNIT",
+          "description": "Library that holds the test framework (TESTASSERT, RUNTEST, IUNITRES) and the compiled test service programs."
+        },
+        "ibmiUnit.remoteDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "IFS directory used for framework sources and uploaded test files. Empty = <home directory>/.ibmiunit"
+        },
+        "ibmiUnit.additionalLibraries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Libraries added to the library list (on top of the Code for IBM i library list) when compiling and running tests."
+        },
+        "ibmiUnit.testFileGlob": {
+          "type": "string",
+          "default": "**/*.test.{rpgle,sqlrpgle,RPGLE,SQLRPGLE}",
+          "description": "Workspace files discovered as test suites."
+        },
+        "ibmiUnit.reportFolder": {
+          "type": "string",
+          "default": ".ibmi-unit",
+          "description": "Workspace-relative folder where HTML and JUnit XML reports are written."
+        },
+        "ibmiUnit.openReportAfterRun": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open the HTML report in an editor tab after each run."
+        },
+        "ibmiUnit.keepResultsDays": {
+          "type": "number",
+          "default": 7,
+          "description": "Rows older than this are removed from IUNITRES at the start of each run."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.0",
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,32 @@
+**free
+// Prototypes for service program MATHUTIL
+/if not defined(MATHUTIL_H)
+/define MATHUTIL_H
+
+dcl-pr math_add int(10);
+  a int(10) const;
+  b int(10) const;
+end-pr;
+
+// Returns -1 for n < 0 or n > 20 (int(20) overflow guard)
+dcl-pr math_factorial int(20);
+  n int(10) const;
+end-pr;
+
+dcl-pr math_isPrime ind;
+  n int(10) const;
+end-pr;
+
+// Half-adjust rounding to 0..5 decimal places
+dcl-pr math_round packed(15: 5);
+  value packed(15: 5) const;
+  places int(10) const;
+end-pr;
+
+// Returns 0 when the divisor is 0
+dcl-pr math_safeDivide packed(15: 5);
+  dividend packed(15: 5) const;
+  divisor packed(15: 5) const;
+end-pr;
+
+/endif
